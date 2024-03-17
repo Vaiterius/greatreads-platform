@@ -30,3 +30,4 @@ C:\Users\drago\Desktop\Programming\Projects\Web Development\Book-Review-Web-App\
 C:\Users\drago\Desktop\Programming\Projects\Web Development\Book-Review-Web-App\book-review-server\obj\Debug\net8.0\book-review-server.pdb
 C:\Users\drago\Desktop\Programming\Projects\Web Development\Book-Review-Web-App\book-review-server\obj\Debug\net8.0\book-review-server.genruntimeconfig.cache
 C:\Users\drago\Desktop\Programming\Projects\Web Development\Book-Review-Web-App\book-review-server\obj\Debug\net8.0\ref\book-review-server.dll
+C:\Users\drago\Desktop\Programming\Projects\Web Development\Book-Review-Web-App\book-review-server\obj\Debug\net8.0\book-review-server.sourcelink.json
