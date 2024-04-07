@@ -23,9 +23,15 @@ namespace book_review_server.Controllers
 
         // GET: api/Reviews
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Review>>> GetReviews()
+        public async Task<ActionResult<ApiResult<Review>>> GetReviews(
+            int pageIndex = 0,
+            int pageSize = 10)
         {
-            return await _context.Reviews.ToListAsync();
+            return await ApiResult<Review>.CreateAsync(
+                _context.Reviews.AsNoTracking(),
+                pageIndex,
+                pageSize
+            );
         }
 
         // GET: api/Reviews/5
