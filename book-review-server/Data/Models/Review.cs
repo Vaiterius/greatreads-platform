@@ -6,7 +6,8 @@ namespace book_review_server.Data.Models
     public class Review
     {
         [Key]
-        public required int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
         // TODO
         // Foreign key.

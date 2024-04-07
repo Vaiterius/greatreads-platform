@@ -1,2 +1,13 @@
-<h1>Greetings, stranger!</h1>
-<p>This is what you get for messing up with ASP.NET and Angular.</p>
+<h1>Book Reviews</h1>
+@if (!reviews) {
+	<em>Loading...</em>
+} @else {
+	@for (review of reviews; track $index) {
+		<div>
+			<h3>{{ review.title }}</h3>
+			<p>{{ review.author }}</p>
+			<p>{{ review.createdAt | date: "MMMM d, y, h:mm a" }}</p>
+			<p>{{ review.lastUpdatedAt | date: "MMMM d, y, h:mm a" }}</p>
+		</div>
+	}
+}
