@@ -1,0 +1,37 @@
+.review-edit {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	form {
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+// .form-outline {
+// 	padding: 2rem;
+// 	outline: solid;
+// 	outline-width: 1px;
+// 	border-radius: 20px;
+// }
+
+.form-item {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1.5rem;
+
+	label {
+		margin-bottom: 0.5rem;
+	}
+}
+
+.form-buttons {
+	display: flex;
+	justify-content: end;
+
+	p-button[type="submit"] {
+		margin-right: 1rem;
+	}
+}

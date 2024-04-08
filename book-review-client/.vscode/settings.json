@@ -8,5 +8,8 @@
 	},
 	"[html]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	}
+	},
+	"prettier.printWidth": 100,
+	"prettier.tabWidth": 4,
+	"prettier.useTabs": true
 }
