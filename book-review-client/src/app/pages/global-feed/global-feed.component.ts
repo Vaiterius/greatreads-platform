@@ -5,17 +5,17 @@ import { RouterLink } from '@angular/router';
 
 import { PaginatorModule } from 'primeng/paginator';
 
-import { environment } from '../../environments/environment';
-import { Review } from './review';
+import { Review } from '../../shared/interfaces/review';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
-	selector: 'app-reviews',
+	selector: 'app-global-feed',
 	standalone: true,
 	imports: [DatePipe, PaginatorModule, RouterLink],
-	templateUrl: './reviews.component.html',
-	styleUrl: './reviews.component.scss',
+	templateUrl: './global-feed.component.html',
+	styleUrl: './global-feed.component.scss',
 })
-export class ReviewsComponent implements OnInit {
+export class GlobalFeedComponent implements OnInit {
 	constructor(private http: HttpClient) {}
 
 	private url: string = environment.baseUrl + 'api/Reviews';

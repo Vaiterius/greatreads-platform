@@ -9,11 +9,11 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ButtonModule } from 'primeng/button';
 
-import { Review } from '../../review';
+import { Review } from '../../../shared/interfaces/review';
 import { environment } from '../../../../environments/environment.development';
 
 @Component({
-	selector: 'app-review-edit',
+	selector: 'app-edit-review-form',
 	standalone: true,
 	imports: [
 		RouterLink,
@@ -23,10 +23,10 @@ import { environment } from '../../../../environments/environment.development';
 		InputNumberModule,
 		ButtonModule,
 	],
-	templateUrl: './review-edit.component.html',
-	styleUrl: './review-edit.component.scss',
+	templateUrl: './edit-review-form.component.html',
+	styleUrl: './edit-review-form.component.scss',
 })
-export class ReviewEditComponent implements OnInit {
+export class EditReviewFormComponent implements OnInit {
 	public title?: string; // View title displayed on template.
 	public form!: FormGroup;
 	public review?: Review;
