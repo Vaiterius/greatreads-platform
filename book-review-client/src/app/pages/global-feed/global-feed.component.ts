@@ -6,12 +6,13 @@ import { RouterLink } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
 
 import { Review } from '../../shared/interfaces/review';
+import { ReviewListItemComponent } from '../../shared/components/review-list-item/review-list-item.component';
 import { environment } from '../../../environments/environment.development';
 
 @Component({
 	selector: 'app-global-feed',
 	standalone: true,
-	imports: [DatePipe, PaginatorModule, RouterLink],
+	imports: [DatePipe, PaginatorModule, RouterLink, ReviewListItemComponent],
 	templateUrl: './global-feed.component.html',
 	styleUrl: './global-feed.component.scss',
 })
@@ -46,6 +47,7 @@ export class GlobalFeedComponent implements OnInit {
 			},
 			error: (error) => console.error(error),
 		});
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	}
 
 	// Initial data to view on page landing.

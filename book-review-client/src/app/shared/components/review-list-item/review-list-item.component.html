@@ -1,1 +1,34 @@
-<p>review-list-item works!</p>
+<div class="review-list-item">
+	<h3>#{{ id }}) {{ title }}</h3>
+	<!-- <p>{{ review.author }}</p> -->
+	<p>
+		<strong>Date</strong>:
+		{{ createdAt | date: "MMMM d, y, h:mm a" }}
+	</p>
+	@if (createdAt != lastUpdatedAt) {
+		<p>
+			Last Updated:
+			{{ lastUpdatedAt | date: "MMMM d, y, h:mm a" }}
+		</p>
+	}
+	<p>{{ body }}</p>
+	<p><strong>Rating</strong>: {{ rating }}/<strong>10</strong></p>
+	<p>
+		<strong>Tags</strong>:
+		@if (tags.length > 0) {
+			<span>
+				@for (tag of tags; track $index) {
+					<span>{{ tag }}</span
+					>,
+				}
+			</span>
+		} @else {
+			<span>N/A</span>
+		}
+	</p>
+	<p>
+		<button [routerLink]="['/reviews', id]">Edit Review</button
+		><span> | </span
+		><button (click)="deleteReview(id)">Delete Review</button>
+	</p>
+</div>

@@ -3,38 +3,15 @@
 	<p><em>Loading...</em></p>
 } @else {
 	@for (review of reviews; track $index) {
-		<div>
-			<h3>#{{ review.id }}) {{ review.title }}</h3>
-			<!-- <p>{{ review.author }}</p> -->
-			<p>
-				<strong>Date</strong>:
-				{{ review.createdAt | date: "MMMM d, y, h:mm a" }}
-			</p>
-			@if (review.createdAt != review.lastUpdatedAt) {
-				<p>
-					Last Updated:
-					{{ review.lastUpdatedAt | date: "MMMM d, y, h:mm a" }}
-				</p>
-			}
-			<p>{{ review.body }}</p>
-			<p>
-				<strong>Rating</strong>: {{ review.rating }}/<strong>10</strong>
-			</p>
-			<p>
-				<strong>Tags</strong>:
-				@if (review.tags.length > 0) {
-					<span>
-						@for (tag of review.tags; track $index) {
-							<span>{{ tag }}</span
-							>,
-						}
-					</span>
-				} @else {
-					<span>N/A</span>
-				}
-			</p>
-			<p><a [routerLink]="['/reviews', review.id]">Edit Review</a></p>
-		</div>
+		<app-review-list-item
+			[id]="review.id"
+			[title]="review.title"
+			[body]="review.body"
+			[createdAt]="review.createdAt"
+			[lastUpdatedAt]="review.lastUpdatedAt"
+			[rating]="review.rating"
+			[tags]="review.tags"
+		></app-review-list-item>
 		<hr />
 	}
 	<p-paginator
