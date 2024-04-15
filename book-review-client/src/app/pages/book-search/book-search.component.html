@@ -1,2 +1,50 @@
-<h1>Search a Book</h1>
-<p>TODO</p>
+<div>
+	<h1>Search a Book</h1>
+
+	<!-- Search Form -->
+	<form class="book-search" [formGroup]="form" (ngSubmit)="searchBooks()">
+		<span class="p-input-icon-left"
+			><i class="pi pi-search"></i
+			><input
+				type="text"
+				pInputText
+				formControlName="searchQuery"
+				id="book-query"
+				placeholder="Search A Book"
+		/></span>
+		<p-button type="submit" label="Submit"></p-button>
+	</form>
+
+	<!-- Search Results -->
+	<div>
+		@if (!searchResults) {
+			<p><em>Search For A Book!</em></p>
+		} @else {
+			@if (searchResults.length == 0) {
+				<p><em>No results</em></p>
+			} @else {
+				@for (result of searchResults; track $index) {
+					<div>
+						<h3>
+							<a
+								href="{{ result.previewLink }}"
+								target="_blank"
+								>{{ result.title }}</a
+							>
+						</h3>
+						<p>ID: {{ result.id }}</p>
+						<p>Authors: {{ result.authors }}</p>
+						<p>
+							Text snippet:
+							<span [innerHTML]="result.textSnippet"></span>
+						</p>
+						<p>ISBN 10: {{ result.isbn_10 }}</p>
+						<p>ISBN 13: {{ result.isbn_13 }}</p>
+						<p>Other ID: {{ result.other_id }}</p>
+					</div>
+					<hr />
+				}
+			}
+		}
+	</div>
+</div>

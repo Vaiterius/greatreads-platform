@@ -32,7 +32,7 @@ export class ReviewListItemComponent {
 
 	deleteReview(id: number) {
 		this.http.delete<any>(`${this.url}/${id}`).subscribe({
-			next: (result) => {
+			next: () => {
 				console.log(`Review #${id} deleted successfully`);
 				this.router.navigate(['/reviews']);
 			},
