@@ -32,6 +32,10 @@ namespace book_review_server.Data.Models
         [Range(1.0, 10.0, ErrorMessage = "Rating must be between 1 and 10 with increments of 0.1")]
         public required decimal Rating { get; set; }
 
+        // Link to book info details from Google Books API.
+        [Url]
+        public required string BookUrl { get; set; }
+
         [Url]
         [MaxLength(2048, ErrorMessage = "Invalid URL length")]
         public string? ImageUrl { get; set; }
