@@ -19,6 +19,7 @@ export class ReviewListItemComponent {
 	// @Input() author: string;
 	@Input() createdAt!: string;
 	@Input() lastUpdatedAt?: string;
+	@Input() bookUrl!: string;
 	// @Input() imageUrl?: string;
 	@Input() rating!: number;
 	@Input() tags!: string[];

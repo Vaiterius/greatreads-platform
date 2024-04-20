@@ -26,11 +26,9 @@
 				@for (result of searchResults; track $index) {
 					<div>
 						<h3>
-							<a
-								href="{{ result.previewLink }}"
-								target="_blank"
-								>{{ result.title }}</a
-							>
+							<a [routerLink]="['/books', result.id]">{{
+								result.title
+							}}</a>
 						</h3>
 						<p>ID: {{ result.id }}</p>
 						<p>Authors: {{ result.authors }}</p>
@@ -41,6 +39,11 @@
 						<p>ISBN 10: {{ result.isbn_10 }}</p>
 						<p>ISBN 13: {{ result.isbn_13 }}</p>
 						<p>Other ID: {{ result.other_id }}</p>
+						<p-button
+							type="submit"
+							label="Write A Review"
+							[routerLink]="['/create-review']"
+						></p-button>
 					</div>
 					<hr />
 				}

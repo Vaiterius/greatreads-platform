@@ -6,9 +6,16 @@ export interface Book {
 	id: string;
 	previewLink: string;
 	title: string;
-	// subtitle: string;
+	subtitle?: string;
 	authors: string[];
-	// description: string;
+	publisher: string;
+	publishDate: string;
+	description: string;
+	pageCount: number;
+	imageLinks?: {
+		smallThumbnail: string;
+		thumbnail: string;
+	};
 	textSnippet?: string;
 	isbn_10: string;
 	isbn_13: string;
@@ -23,3 +30,11 @@ export interface IndustryIdentifier {
 
 // Our custom format.
 export type IsbnInfo = { isbn_13?: string; isbn_10?: string; other?: string };
+
+export type BookDetailsResponse = any; // Big JSON data.
+
+export interface BookVolumesResponse {
+	kind: string;
+	totalItems: number;
+	items: BookDetailsResponse[];
+}

@@ -1,1 +1,39 @@
-<p>book-details works!</p>
+<div class="book-details">
+	<!-- Book details -->
+	<section>
+		<!-- Picture and main info -->
+		<div class="primary-info">
+			<div>
+				@if (bookDetails.imageLinks != null) {
+					<img
+						src="{{ bookDetails.imageLinks.thumbnail }}"
+						alt="Book cover of {{ bookDetails.title }}"
+					/>
+				} @else {
+					<img src="" alt="No book cover" />
+				}
+			</div>
+			<div>
+				<h1>{{ bookDetails.title }}</h1>
+				@if (bookDetails.subtitle) {
+					<h2>{{ bookDetails.subtitle }}</h2>
+				}
+				<p>Authors: {{ bookDetails.authors }}</p>
+			</div>
+		</div>
+		<!-- Other info -->
+		<div class="secondary-info">
+			<p [innerHTML]="bookDetails.description"></p>
+			<p>Page count: {{ bookDetails.pageCount }}</p>
+			<p>Publisher: {{ bookDetails.publisher }}</p>
+			<p>Publish date: {{ bookDetails.publishDate }}</p>
+			<p>ISBN 10: {{ bookDetails.isbn_10 }}</p>
+			<p>ISBN 13: {{ bookDetails.isbn_13 }}</p>
+			<p>Other ID: {{ bookDetails.other_id }}</p>
+		</div>
+	</section>
+	<!-- Create review form -->
+	<div><p>Create a review...</p></div>
+	<!-- All reviews (paginated) -->
+	<div><p>See all reviews...</p></div>
+</div>
