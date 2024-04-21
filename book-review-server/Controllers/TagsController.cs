@@ -30,7 +30,7 @@ namespace book_review_server.Controllers
 
         // GET: api/Tags/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Tag>> GetTag(int id)
+        public async Task<ActionResult<Tag>> GetTag(string id)
         {
             var tag = await _context.Tags.FindAsync(id);
 
@@ -45,9 +45,9 @@ namespace book_review_server.Controllers
         // PUT: api/Tags/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTag(int id, Tag tag)
+        public async Task<IActionResult> PutTag(string id, Tag tag)
         {
-            if (id != tag.Id)
+            if (id != tag.Name)
             {
                 return BadRequest();
             }
@@ -79,14 +79,28 @@ namespace book_review_server.Controllers
         public async Task<ActionResult<Tag>> PostTag(Tag tag)
         {
             _context.Tags.Add(tag);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (TagExists(tag.Name))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-            return CreatedAtAction("GetTag", new { id = tag.Id }, tag);
+            return CreatedAtAction("GetTag", new { id = tag.Name }, tag);
         }
 
         // DELETE: api/Tags/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTag(int id)
+        public async Task<IActionResult> DeleteTag(string id)
         {
             var tag = await _context.Tags.FindAsync(id);
             if (tag == null)
@@ -100,9 +114,9 @@ namespace book_review_server.Controllers
             return NoContent();
         }
 
-        private bool TagExists(int id)
+        private bool TagExists(string id)
         {
-            return _context.Tags.Any(e => e.Id == id);
+            return _context.Tags.Any(e => e.Name == id);
         }
     }
 }

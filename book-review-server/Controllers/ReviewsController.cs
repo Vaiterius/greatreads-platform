@@ -82,7 +82,7 @@ namespace book_review_server.Controllers
         // POST: api/Reviews
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Review>> PostReview(Review review)
+        public async Task<ActionResult<Review>> PostReview(Review review)  // TODO: create DTO for review tag conversions.
         {
             _context.Reviews.Add(review);
             await _context.SaveChangesAsync();

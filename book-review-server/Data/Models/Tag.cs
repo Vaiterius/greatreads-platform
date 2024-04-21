@@ -8,8 +8,6 @@ namespace book_review_server.Data.Models
     public class Tag
     {
         [Key]
-        public int Id { get; set; }
-
         [Required]
         [StringLength(25, ErrorMessage = "Name length too long")]
         public required string Name { get; set; }
