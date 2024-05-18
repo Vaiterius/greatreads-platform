@@ -24,27 +24,17 @@
 				<p><em>No results</em></p>
 			} @else {
 				@for (result of searchResults; track $index) {
-					<div>
-						<h3>
-							<a [routerLink]="['/books', result.id]">{{
-								result.title
-							}}</a>
-						</h3>
-						<p>ID: {{ result.id }}</p>
-						<p>Authors: {{ result.authors }}</p>
-						<p>
-							Text snippet:
-							<span [innerHTML]="result.textSnippet"></span>
-						</p>
-						<p>ISBN 10: {{ result.isbn_10 }}</p>
-						<p>ISBN 13: {{ result.isbn_13 }}</p>
-						<p>Other ID: {{ result.other_id }}</p>
-						<p-button
-							type="submit"
-							label="Write A Review"
-							[routerLink]="['/create-review']"
-						></p-button>
-					</div>
+					<app-book-list-item
+						[id]="result.id"
+						[title]="result.title"
+						[authors]="result.authors"
+						[imageLinks]="result.imageLinks"
+						[textSnippet]="result.textSnippet"
+						[isbn_10]="result.isbn_10"
+						[isbn_13]="result.isbn_13"
+						[other_id]="result.other_id"
+					>
+					</app-book-list-item>
 					<hr />
 				}
 			}

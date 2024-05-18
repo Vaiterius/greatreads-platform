@@ -11,11 +11,18 @@ import {
 } from '../../shared/interfaces/book';
 import { GoogleBooksApiService } from '../../shared/services/google-books-api.service';
 import { RouterLink } from '@angular/router';
+import { BookListItemComponent } from '../../shared/components/book-list-item/book-list-item.component';
 
 @Component({
 	selector: 'app-book-search',
 	standalone: true,
-	imports: [ReactiveFormsModule, InputTextModule, ButtonModule, RouterLink],
+	imports: [
+		ReactiveFormsModule,
+		InputTextModule,
+		ButtonModule,
+		RouterLink,
+		BookListItemComponent,
+	],
 	templateUrl: './book-search.component.html',
 	styleUrl: './book-search.component.scss',
 })

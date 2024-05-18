@@ -1,1 +1,33 @@
-<p>book-list-item works!</p>
+<!-- The book item displayed under the book search page -->
+
+<div class="book-list-item">
+	<div>
+		@if (imageLinks != null) {
+			<img
+				src="{{ imageLinks.thumbnail }}"
+				alt="Book cover of {{ title }}"
+			/>
+		} @else {
+			<img src="" alt="No book cover" />
+		}
+	</div>
+	<div>
+		<h3>
+			<a [routerLink]="['/books', id]">{{ title }}</a>
+		</h3>
+		<p>ID: {{ id }}</p>
+		<p>Authors: {{ authors }}</p>
+		<p>
+			Text snippet:
+			<span [innerHTML]="textSnippet"></span>
+		</p>
+		<p>ISBN 10: {{ isbn_10 }}</p>
+		<p>ISBN 13: {{ isbn_13 }}</p>
+		<p>Other ID: {{ other_id }}</p>
+		<p-button
+			type="submit"
+			label="Write A Review"
+			[routerLink]="['/create-review']"
+		></p-button>
+	</div>
+</div>

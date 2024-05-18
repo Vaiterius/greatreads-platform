@@ -1,3 +1,4 @@
+// From the server.
 export interface Review {
 	id: number;
 	createdAt: string;
@@ -7,7 +8,9 @@ export interface Review {
 	body: string;
 	rating: number;
 	bookUrl: string;
-	imageUrl: string | null;
 	tags: string[];
 	// meta: string[]; // author link, other links
 }
+
+// To the server.
+export type NewReview = Omit<Review, 'id' | 'createdAt' | 'lastUpdatedAt'>;

@@ -6,6 +6,7 @@ import { BookSearchComponent } from './pages/book-search/book-search.component';
 import { EditReviewFormComponent } from './pages/forms/edit-review-form/edit-review-form.component';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 import { BookDetailsComponent } from './pages/book-details/book-details.component';
+import { CreateReviewFormComponent } from './pages/forms/create-review-form/create-review-form.component';
 
 export const routes: Routes = [
 	// Pages.
@@ -17,4 +18,5 @@ export const routes: Routes = [
 
 	// Forms.
 	{ path: 'reviews/:id', component: EditReviewFormComponent },
+	{ path: 'create-review', component: CreateReviewFormComponent },
 ];
