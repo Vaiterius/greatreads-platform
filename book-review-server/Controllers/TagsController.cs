@@ -25,14 +25,19 @@ namespace book_review_server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Tag>>> GetTags()
         {
-            return await _context.Tags.ToListAsync();
+            // Get names only.
+            List<string> tags = await _context.Tags
+                .Select(t => t.Name)
+                .ToListAsync();
+
+            return Ok(tags);
         }
 
         // GET: api/Tags/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Tag>> GetTag(string id)
+        [HttpGet("{name}")]
+        public async Task<ActionResult<Tag>> GetTag(string name)
         {
-            var tag = await _context.Tags.FindAsync(id);
+            var tag = await _context.Tags.FindAsync(name);
 
             if (tag == null)
             {
@@ -44,10 +49,10 @@ namespace book_review_server.Controllers
 
         // PUT: api/Tags/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTag(string id, Tag tag)
+        [HttpPut("{name}")]
+        public async Task<IActionResult> PutTag(string name, Tag tag)
         {
-            if (id != tag.Name)
+            if (name != tag.Name)
             {
                 return BadRequest();
             }
@@ -60,7 +65,7 @@ namespace book_review_server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TagExists(id))
+                if (!TagExists(name))
                 {
                     return NotFound();
                 }
@@ -95,14 +100,14 @@ namespace book_review_server.Controllers
                 }
             }
 
-            return CreatedAtAction("GetTag", new { id = tag.Name }, tag);
+            return CreatedAtAction("GetTag", new { name = tag.Name }, tag);
         }
 
         // DELETE: api/Tags/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTag(string id)
+        [HttpDelete("{name}")]
+        public async Task<IActionResult> DeleteTag(string name)
         {
-            var tag = await _context.Tags.FindAsync(id);
+            var tag = await _context.Tags.FindAsync(name);
             if (tag == null)
             {
                 return NotFound();
@@ -114,9 +119,9 @@ namespace book_review_server.Controllers
             return NoContent();
         }
 
-        private bool TagExists(string id)
+        private bool TagExists(string name)
         {
-            return _context.Tags.Any(e => e.Name == id);
+            return _context.Tags.Any(e => e.Name == name);
         }
     }
 }

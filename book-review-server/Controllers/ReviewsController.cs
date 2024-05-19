@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using book_review_server.Data;
 using book_review_server.Data.Models;
+using book_review_server.Data.DTO;
 
 namespace book_review_server.Controllers
 {
@@ -27,25 +28,59 @@ namespace book_review_server.Controllers
             int pageIndex = 0,
             int pageSize = 10)
         {
-            return await ApiResult<Review>.CreateAsync(
-                _context.Reviews.AsNoTracking(),
+            // Get all reviews including their respective tags.
+            IQueryable<ReviewDTO> query = _context.Reviews
+                .Include(r => r.Tags)
+                .AsNoTracking()
+                .Select(r => new ReviewDTO
+                {
+                    Id = r.Id,
+                    CreatedAt = r.CreatedAt,
+                    LastUpdatedAt = r.LastUpdatedAt,
+                    Title = r.Title,
+                    Body = r.Body,
+                    Rating = r.Rating,
+                    BookUrl = r.BookUrl,
+                    Tags = r.Tags.Select(t => t.Name).ToList()
+                });
+
+            // Apply pagination to the reviews.
+            var paginatedResult = await ApiResult<ReviewDTO>.CreateAsync(
+                query,
                 pageIndex,
                 pageSize
             );
+
+            return Ok(paginatedResult);
         }
 
         // GET: api/Reviews/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Review>> GetReview(int id)
         {
-            var review = await _context.Reviews.FindAsync(id);
+            //var review = await _context.Reviews.FindAsync(id);
+            var review = await _context.Reviews
+                .Include(r => r.Tags)
+                .FirstOrDefaultAsync(r => r.Id == id);
 
             if (review == null)
             {
                 return NotFound();
             }
 
-            return review;
+            var reviewDto = new ReviewDTO
+            {
+                Id = id,
+                CreatedAt = review.CreatedAt,
+                LastUpdatedAt = review.LastUpdatedAt,
+                Title = review.Title,
+                Body = review.Body,
+                Rating = review.Rating,
+                BookUrl = review.BookUrl,
+                Tags = review.Tags.Select(t => t.Name).ToList()
+            };
+
+            return Ok(reviewDto);
         }
 
         // PUT: api/Reviews/5
@@ -82,8 +117,31 @@ namespace book_review_server.Controllers
         // POST: api/Reviews
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Review>> PostReview(Review review)  // TODO: create DTO for review tag conversions.
+        public async Task<ActionResult<Review>> PostReview(ReviewDTO reviewDto)  // TODO: create DTO for review tag conversions.
         {
+            Console.WriteLine("Tags received: " + string.Join(", ", reviewDto.Tags));
+
+            var review = new Review
+            {
+                CreatedAt = DateTime.UtcNow,
+                LastUpdatedAt = DateTime.UtcNow,
+                Title = reviewDto.Title,
+                Body = reviewDto.Body,
+                Rating = reviewDto.Rating,
+                BookUrl = reviewDto.BookUrl,
+            };
+
+            foreach (var tagName in reviewDto.Tags)
+            {
+                var tag = await _context.Tags.FirstOrDefaultAsync(t => t.Name.ToLower() == tagName.ToLower());
+                if (tag == null)
+                {
+                    tag = new Tag { Name = tagName.ToLower() };
+                    _context.Tags.Add(tag);
+                }
+                review.Tags.Add(tag);
+            }
+
             _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
 

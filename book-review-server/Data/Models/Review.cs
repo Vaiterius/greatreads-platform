@@ -36,10 +36,6 @@ namespace book_review_server.Data.Models
         [Url]
         public required string BookUrl { get; set; }
 
-        [Url]
-        [MaxLength(2048, ErrorMessage = "Invalid URL length")]
-        public string? ImageUrl { get; set; }
-
         public ICollection<Tag>? Tags { get; } = [];
     }
 }
