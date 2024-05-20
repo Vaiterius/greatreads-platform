@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using book_review_server.Data;
 using book_review_server.Data.Models;
 using book_review_server.Data.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace book_review_server.Controllers
 {
@@ -101,6 +102,7 @@ namespace book_review_server.Controllers
 
         // PUT: api/Reviews/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutReview(int id, Review review)
         {
@@ -132,6 +134,7 @@ namespace book_review_server.Controllers
 
         // POST: api/Reviews
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Review>> PostReview(ReviewDTO reviewDto)  // TODO: create DTO for review tag conversions.
         {
@@ -165,6 +168,7 @@ namespace book_review_server.Controllers
         }
 
         // DELETE: api/Reviews/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReview(int id)
         {

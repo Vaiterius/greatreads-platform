@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using book_review_server.Data;
 using book_review_server.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace book_review_server.Controllers
 {
@@ -33,7 +34,7 @@ namespace book_review_server.Controllers
             return Ok(tags);
         }
 
-        // GET: api/Tags/5
+        // GET: api/Tags/fiction
         [HttpGet("{name}")]
         public async Task<ActionResult<Tag>> GetTag(string name)
         {
@@ -49,6 +50,7 @@ namespace book_review_server.Controllers
 
         // PUT: api/Tags/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{name}")]
         public async Task<IActionResult> PutTag(string name, Tag tag)
         {
@@ -80,6 +82,7 @@ namespace book_review_server.Controllers
 
         // POST: api/Tags
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Tag>> PostTag(Tag tag)
         {
@@ -104,6 +107,7 @@ namespace book_review_server.Controllers
         }
 
         // DELETE: api/Tags/5
+        [Authorize]
         [HttpDelete("{name}")]
         public async Task<IActionResult> DeleteTag(string name)
         {
