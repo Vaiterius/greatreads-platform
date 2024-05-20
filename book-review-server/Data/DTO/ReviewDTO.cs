@@ -10,7 +10,7 @@
         public required string Title { get; set; }
         public required string Body { get; set; }
         public required decimal Rating { get; set; }
-        public required string BookUrl { get; set; }
+        public required string BookId { get; set; }
         public required List<string> Tags { get; set; }
     }
 }

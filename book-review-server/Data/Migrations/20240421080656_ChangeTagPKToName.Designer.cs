@@ -53,7 +53,7 @@ namespace book_review_server.Data.Migrations
                         .HasMaxLength(7500)
                         .HasColumnType("character varying(7500)");
 
-                    b.Property<string>("BookUrl")
+                    b.Property<string>("BookId")
                         .IsRequired()
                         .HasColumnType("text");
 

@@ -33,8 +33,7 @@ namespace book_review_server.Data.Models
         public required decimal Rating { get; set; }
 
         // Link to book info details from Google Books API.
-        [Url]
-        public required string BookUrl { get; set; }
+        public required string BookId { get; set; }
 
         public ICollection<Tag>? Tags { get; } = [];
     }

@@ -40,8 +40,19 @@
 						formControlName="rating"
 					></p-inputNumber>
 				</div>
-				<!-- TODO Image URL -->
-				<!-- TODO Tags -->
+				<!-- Tags -->
+				<div class="form-item">
+					<label for="tags">Tags</label>
+					<p-chips
+						formControlName="tags"
+						[max]="5"
+						placeholder="Maximum 5 tags"
+						separator=","
+					/>
+					<small class="form-text text-muted">
+						Separate tags with a comma or press Enter.
+					</small>
+				</div>
 				<div class="form-buttons">
 					<p-button type="submit" label="Update Review"></p-button>
 					<p-button

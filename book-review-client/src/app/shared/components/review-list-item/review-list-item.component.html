@@ -29,7 +29,8 @@
 		}
 	</p>
 	<p>
-		<button [routerLink]="['/reviews', id]">Edit Review</button
+		<button [routerLink]="['/books', bookId, 'reviews', id, 'edit-review']">
+			Edit Review</button
 		><span> | </span
 		><button (click)="deleteReview(id)">Delete Review</button>
 	</p>

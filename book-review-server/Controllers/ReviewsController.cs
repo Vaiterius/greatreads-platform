@@ -40,7 +40,7 @@ namespace book_review_server.Controllers
                     Title = r.Title,
                     Body = r.Body,
                     Rating = r.Rating,
-                    BookUrl = r.BookUrl,
+                    BookId = r.BookId,
                     Tags = r.Tags.Select(t => t.Name).ToList()
                 });
 
@@ -76,7 +76,7 @@ namespace book_review_server.Controllers
                 Title = review.Title,
                 Body = review.Body,
                 Rating = review.Rating,
-                BookUrl = review.BookUrl,
+                BookId = review.BookId,
                 Tags = review.Tags.Select(t => t.Name).ToList()
             };
 
@@ -128,7 +128,7 @@ namespace book_review_server.Controllers
                 Title = reviewDto.Title,
                 Body = reviewDto.Body,
                 Rating = reviewDto.Rating,
-                BookUrl = reviewDto.BookUrl,
+                BookId = reviewDto.BookId,
             };
 
             foreach (var tagName in reviewDto.Tags)

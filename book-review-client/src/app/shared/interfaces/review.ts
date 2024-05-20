@@ -7,7 +7,7 @@ export interface Review {
 	title: string;
 	body: string;
 	rating: number;
-	bookUrl: string;
+	bookId: string;
 	tags: string[];
 	// meta: string[]; // author link, other links
 }

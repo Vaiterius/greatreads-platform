@@ -11,7 +11,7 @@ namespace book_review_server.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "BookUrl",
+                name: "BookId",
                 table: "Reviews",
                 type: "text",
                 nullable: false,
@@ -22,7 +22,7 @@ namespace book_review_server.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "BookUrl",
+                name: "BookId",
                 table: "Reviews");
         }
     }

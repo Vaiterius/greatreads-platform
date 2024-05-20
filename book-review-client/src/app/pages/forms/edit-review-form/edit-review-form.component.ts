@@ -8,6 +8,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ButtonModule } from 'primeng/button';
+import { ChipsModule } from 'primeng/chips';
 
 import { Review } from '../../../shared/interfaces/review';
 import { environment } from '../../../../environments/environment.development';
@@ -22,6 +23,7 @@ import { environment } from '../../../../environments/environment.development';
 		InputTextareaModule,
 		InputNumberModule,
 		ButtonModule,
+		ChipsModule,
 	],
 	templateUrl: './edit-review-form.component.html',
 	styleUrl: './edit-review-form.component.scss',
@@ -42,14 +44,13 @@ export class EditReviewFormComponent implements OnInit {
 			title: new FormControl(''),
 			body: new FormControl(''),
 			rating: new FormControl(null),
-			// imageUrl: new FormControl(""),
-			// tags: new FormControl([])
+			tags: new FormControl([]),
 		});
 		this.loadData();
 	}
 
 	loadData() {
-		// Retrieve the ID from the 'id' parameter.
+		// Retrieve the ID of the review itself.
 		var idParam = this.activatedRoute.snapshot.paramMap.get('id');
 		var id = idParam ? +idParam : 0;
 
@@ -76,8 +77,7 @@ export class EditReviewFormComponent implements OnInit {
 		review.title = this.form.controls['title'].value;
 		review.body = this.form.controls['body'].value;
 		review.rating = +this.form.controls['rating'].value;
-		// review.imageUrl = this.form.controls['imageUrl'].value;
-		// review.tags = this.form.controls['tags'].value;
+		review.tags = this.form.controls['tags'].value;
 
 		var url = environment.baseUrl + 'api/Reviews/' + review.id;
 		this.http.put<Review>(url, review).subscribe({

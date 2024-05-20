@@ -48,7 +48,7 @@ namespace tests
                 Body = "This is a test body",
                 CreatedAt = DateTime.Now,
                 Rating = (decimal)10.0,
-                BookUrl = "https://www.googleapis.com/books/v1/volumes/VgqzCwAAQBAJ"
+                BookId = "https://www.googleapis.com/books/v1/volumes/VgqzCwAAQBAJ"
             };
             _context.Reviews.Add(review);
             _context.SaveChanges();
@@ -75,7 +75,7 @@ namespace tests
                 Body = "This is a test body",
                 CreatedAt = DateTime.Now,
                 Rating = (decimal)10.0,
-                BookUrl = "https://www.googleapis.com/books/v1/volumes/VgqzCwAAQBAJ"
+                BookId = "https://www.googleapis.com/books/v1/volumes/VgqzCwAAQBAJ"
             };
 
             var tags = new List<string> { "Science", "Fiction", "Fantasy" };

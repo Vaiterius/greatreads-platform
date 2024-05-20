@@ -17,6 +17,12 @@ export const routes: Routes = [
 	{ path: 'profile', component: UserProfileComponent },
 
 	// Forms.
-	{ path: 'reviews/:id', component: EditReviewFormComponent },
-	{ path: 'create-review', component: CreateReviewFormComponent },
+	{
+		path: 'books/:book-id/reviews/:id/edit-review',
+		component: EditReviewFormComponent,
+	},
+	{
+		path: 'books/:book-id/create-review',
+		component: CreateReviewFormComponent,
+	},
 ];
