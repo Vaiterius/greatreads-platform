@@ -1,2 +1,41 @@
 <!-- The review item displayed on the global reviews page -->
-<p>global-review-list-item works!</p>
+<div class="review-list-item" id="{{ id }}">
+	<h3>
+		<a [routerLink]="['/books', bookDetails.id]" fragment="{{ id }}">{{
+			title
+		}}</a>
+	</h3>
+	<!-- <p>{{ review.author }}</p> -->
+	<small>ID #{{ id }}</small>
+	<p>
+		<strong>Date</strong>:
+		{{ createdAt | date: "MMMM d, y, h:mm a" }}
+	</p>
+	@if (createdAt != lastUpdatedAt) {
+		<p>
+			Last Updated:
+			{{ lastUpdatedAt | date: "MMMM d, y, h:mm a" }}
+		</p>
+	}
+	<p>{{ body }}</p>
+	<p><strong>Rating</strong>: {{ rating }}/<strong>10</strong></p>
+	<p>
+		<strong>Tags</strong>:
+		@if (tags.length > 0) {
+			<span>
+				@for (tag of tags; track $index) {
+					<span>{{ tag }}</span
+					>,
+				}
+			</span>
+		} @else {
+			<span>N/A</span>
+		}
+	</p>
+	<p>
+		<button [routerLink]="['/books', bookId, 'reviews', id, 'edit-review']">
+			Edit Review</button
+		><span> | </span
+		><button (click)="deleteReview(id)">Delete Review</button>
+	</p>
+</div>

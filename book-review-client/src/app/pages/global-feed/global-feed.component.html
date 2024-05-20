@@ -1,9 +1,9 @@
 <h1>Book Reviews</h1>
 @if (!reviews) {
-	<p><em>Loading...</em></p>
+	<p><em>No reviews yet. Let's go find a book!</em></p>
 } @else {
 	@for (review of reviews; track $index) {
-		<app-review-list-item
+		<app-global-review-list-item
 			[id]="review.id"
 			[title]="review.title"
 			[body]="review.body"
@@ -12,7 +12,7 @@
 			[bookId]="review.bookId"
 			[rating]="review.rating"
 			[tags]="review.tags"
-		></app-review-list-item>
+		></app-global-review-list-item>
 		<hr />
 	}
 	<p-paginator

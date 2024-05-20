@@ -32,8 +32,33 @@
 			<p>Other ID: {{ bookDetails.other_id }}</p>
 		</div>
 	</section>
-	<!-- Create review form -->
-	<div><p>Create a review...</p></div>
+	<!-- TODO place create review form here instead of separate page -->
+	<!-- <div><p>Create a review...</p></div> -->
+	<div>
+		<p-button
+			type="submit"
+			label="Write A Review"
+			[routerLink]="['/books', id, 'create-review']"
+		>
+		</p-button>
+	</div>
 	<!-- All reviews (paginated) -->
-	<div><p>See all reviews...</p></div>
+	<div>
+		@if (!bookReviews) {
+			<p><em>No reviews yet.</em></p>
+		} @else {
+			@for (review of bookReviews; track $index) {
+				<app-review-list-item
+					[id]="review.id"
+					[title]="review.title"
+					[body]="review.body"
+					[createdAt]="review.createdAt"
+					[lastUpdatedAt]="review.lastUpdatedAt"
+					[bookId]="review.bookId"
+					[rating]="review.rating"
+					[tags]="review.tags"
+				></app-review-list-item>
+			}
+		}
+	</div>
 </div>

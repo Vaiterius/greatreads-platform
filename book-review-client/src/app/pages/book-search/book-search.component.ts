@@ -40,7 +40,7 @@ export class BookSearchComponent implements OnInit {
 		});
 	}
 
-	searchBooks() {
+	public searchBooks() {
 		var query: string = this.form.controls['searchQuery'].value;
 		this.googleBooksService.searchBooksByTitle(query).subscribe({
 			next: (results) => {

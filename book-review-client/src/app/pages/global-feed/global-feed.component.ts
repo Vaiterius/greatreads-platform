@@ -6,13 +6,18 @@ import { RouterLink } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
 
 import { Review } from '../../shared/interfaces/review';
-import { ReviewListItemComponent } from '../../shared/components/review-list-item/review-list-item.component';
 import { environment } from '../../../environments/environment.development';
+import { GlobalReviewListItemComponent } from '../../shared/components/global-review-list-item/global-review-list-item.component';
 
 @Component({
 	selector: 'app-global-feed',
 	standalone: true,
-	imports: [DatePipe, PaginatorModule, RouterLink, ReviewListItemComponent],
+	imports: [
+		DatePipe,
+		PaginatorModule,
+		RouterLink,
+		GlobalReviewListItemComponent,
+	],
 	templateUrl: './global-feed.component.html',
 	styleUrl: './global-feed.component.scss',
 })
@@ -55,7 +60,7 @@ export class GlobalFeedComponent implements OnInit {
 		var params = new HttpParams()
 			.set('pageIndex', Number(this.pageIndex).toString())
 			.set('pageSize', Number(this.pageSize).toString());
-		this.http.get<any>(this.url).subscribe({
+		this.http.get<any>(this.url, { params }).subscribe({
 			next: (result) => {
 				this.reviews = result.data;
 				this.pageIndex = result.pageIndex;

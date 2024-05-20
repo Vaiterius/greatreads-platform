@@ -26,27 +26,59 @@ namespace book_review_server.Controllers
         [HttpGet]
         public async Task<ActionResult<ApiResult<Review>>> GetReviews(
             int pageIndex = 0,
-            int pageSize = 10)
+            int pageSize = 10,
+            string? bookId = null)
         {
-            // Get all reviews including their respective tags.
-            IQueryable<ReviewDTO> query = _context.Reviews
-                .Include(r => r.Tags)
-                .AsNoTracking()
-                .Select(r => new ReviewDTO
-                {
-                    Id = r.Id,
-                    CreatedAt = r.CreatedAt,
-                    LastUpdatedAt = r.LastUpdatedAt,
-                    Title = r.Title,
-                    Body = r.Body,
-                    Rating = r.Rating,
-                    BookId = r.BookId,
-                    Tags = r.Tags.Select(t => t.Name).ToList()
-                });
+            //// Get all reviews including their respective tags.
+            //IQueryable<ReviewDTO> query = _context.Reviews
+            //    .Include(r => r.Tags)
+            //    .AsNoTracking()
+            //    .Select(r => new ReviewDTO
+            //    {
+            //        Id = r.Id,
+            //        CreatedAt = r.CreatedAt,
+            //        LastUpdatedAt = r.LastUpdatedAt,
+            //        Title = r.Title,
+            //        Body = r.Body,
+            //        Rating = r.Rating,
+            //        BookId = r.BookId,
+            //        Tags = r.Tags.Select(t => t.Name).ToList()
+            //    });
 
-            // Apply pagination to the reviews.
+            //// Apply pagination to the reviews.
+            //var paginatedResult = await ApiResult<ReviewDTO>.CreateAsync(
+            //    query,
+            //    pageIndex,
+            //    pageSize
+            //);
+
+            // Get all reviews including their respective tags
+            IQueryable<Review> query = _context.Reviews
+                .Include(r => r.Tags)
+                .AsNoTracking();
+
+            // Filter by bookId if provided.
+            if (!string.IsNullOrEmpty(bookId))
+            {
+                query = query.Where(r => r.BookId == bookId);
+            }
+
+            // Map to ReviewDTO.
+            IQueryable<ReviewDTO> dtoQuery = query.Select(r => new ReviewDTO
+            {
+                Id = r.Id,
+                CreatedAt = r.CreatedAt,
+                LastUpdatedAt = r.LastUpdatedAt,
+                Title = r.Title,
+                Body = r.Body,
+                Rating = r.Rating,
+                BookId = r.BookId,
+                Tags = r.Tags.Select(t => t.Name).ToList()
+            });
+
+            // Create paginated result
             var paginatedResult = await ApiResult<ReviewDTO>.CreateAsync(
-                query,
+                dtoQuery,
                 pageIndex,
                 pageSize
             );
