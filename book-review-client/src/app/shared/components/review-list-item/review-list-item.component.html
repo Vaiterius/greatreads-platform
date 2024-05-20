@@ -1,37 +1,62 @@
-<!-- The review item displayed under the book it is reviewing -->
-
+<!-- The review item displayed on the global reviews page -->
 <div class="review-list-item" id="{{ id }}">
-	<h3>#{{ id }}) {{ title }}</h3>
-	<!-- <p>{{ review.author }}</p> -->
-	<p>
-		<strong>Date</strong>:
-		{{ createdAt | date: "MMMM d, y, h:mm a" }}
-	</p>
-	@if (createdAt != lastUpdatedAt) {
+	<!-- Review info -->
+	<section class="review-container">
+		<h3>{{ title }}</h3>
+		<!-- <p>{{ review.author }}</p> -->
+		<div>
+			<small>Uploaded {{ createdAt | date: "MMMM d, y, h:mm a" }}</small>
+			<small> | </small>
+			@if (createdAt != lastUpdatedAt) {
+				<small>
+					Last Updated
+					{{ lastUpdatedAt | date: "MMMM d, y, h:mm a" }}
+				</small>
+			}
+			<small> | </small>
+			<small>ID #{{ id }}</small>
+		</div>
 		<p>
-			Last Updated:
-			{{ lastUpdatedAt | date: "MMMM d, y, h:mm a" }}
+			<small
+				>On the book <em>{{ title }}</em></small
+			>
 		</p>
-	}
-	<p>{{ body }}</p>
-	<p><strong>Rating</strong>: {{ rating }}/<strong>10</strong></p>
-	<p>
-		<strong>Tags</strong>:
-		@if (tags.length > 0) {
-			<span>
-				@for (tag of tags; track $index) {
-					<span>{{ tag }}</span
-					>,
+		<p>{{ body }}</p>
+		<p><strong>Rating</strong>: {{ rating }}/<strong>10</strong></p>
+		<div class="bottom-row">
+			<p>
+				<strong>Tags</strong>:
+				@if (tags.length > 0) {
+					<span>
+						@for (tagName of tags; track $index) {
+							<p-tag
+								[routerLink]="['/reviews']"
+								[queryParams]="{ tag: tagName }"
+								severity="info"
+								value="{{ tagName }}"
+								class="tag"
+								(onClick)="redirectWithTag(tagName)"
+							/>
+						}
+					</span>
+				} @else {
+					<span>N/A</span>
 				}
-			</span>
-		} @else {
-			<span>N/A</span>
-		}
-	</p>
-	<p>
-		<button [routerLink]="['/books', bookId, 'reviews', id, 'edit-review']">
-			Edit Review</button
-		><span> | </span
-		><button (click)="deleteReview(id)">Delete Review</button>
-	</p>
+			</p>
+			<p>
+				<a
+					[routerLink]="[
+						'/books',
+						bookId,
+						'reviews',
+						id,
+						'edit-review'
+					]"
+					class="p-button"
+					>Edit</a
+				>
+				<p-button (onClick)="deleteReview(id)" label="Delete" />
+			</p>
+		</div>
+	</section>
 </div>

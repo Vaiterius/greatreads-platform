@@ -1,6 +1,6 @@
 <div class="book-details">
 	<!-- Book details -->
-	<section>
+	<section class="book-info">
 		<!-- Picture and main info -->
 		<div class="primary-info">
 			<div>
@@ -10,7 +10,7 @@
 						alt="Book cover of {{ bookDetails.title }}"
 					/>
 				} @else {
-					<img src="" alt="No book cover" />
+					<img src="#" alt="No book cover" />
 				}
 			</div>
 			<div>
@@ -32,33 +32,37 @@
 			<p>Other ID: {{ bookDetails.other_id }}</p>
 		</div>
 	</section>
-	<!-- TODO place create review form here instead of separate page -->
-	<!-- <div><p>Create a review...</p></div> -->
-	<div>
+
+	<section class="book-reviews">
+		<!-- TODO place create review form here instead of separate page -->
 		<p-button
 			type="submit"
 			label="Write A Review"
 			[routerLink]="['/books', id, 'create-review']"
 		>
 		</p-button>
-	</div>
-	<!-- All reviews (paginated) -->
-	<div>
-		@if (!bookReviews) {
-			<p><em>No reviews yet.</em></p>
-		} @else {
-			@for (review of bookReviews; track $index) {
-				<app-review-list-item
-					[id]="review.id"
-					[title]="review.title"
-					[body]="review.body"
-					[createdAt]="review.createdAt"
-					[lastUpdatedAt]="review.lastUpdatedAt"
-					[bookId]="review.bookId"
-					[rating]="review.rating"
-					[tags]="review.tags"
-				></app-review-list-item>
+		<!-- All reviews (TODO paginated) -->
+		<div>
+			<h2>See All Reviews ({{ bookReviews.length }})</h2>
+			@if (!bookReviews) {
+				<p><em>No reviews yet.</em></p>
+			} @else {
+				@for (review of bookReviews; track $index) {
+					<hr />
+					<app-review-list-item
+						[id]="review.id"
+						[title]="review.title"
+						[body]="review.body"
+						[createdAt]="review.createdAt"
+						[lastUpdatedAt]="review.lastUpdatedAt"
+						[bookId]="review.bookId"
+						[rating]="review.rating"
+						[tags]="review.tags"
+					></app-review-list-item>
+					<hr />
+				}
 			}
-		}
-	</div>
+		</div>
+		<div id="bottom"></div>
+	</section>
 </div>

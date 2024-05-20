@@ -1,20 +1,40 @@
-<h1>Book Reviews</h1>
+<h1>All Book Reviews By Users</h1>
 @if (!reviews) {
 	<p><em>No reviews yet. Let's go find a book!</em></p>
 } @else {
-	@for (review of reviews; track $index) {
-		<app-global-review-list-item
-			[id]="review.id"
-			[title]="review.title"
-			[body]="review.body"
-			[createdAt]="review.createdAt"
-			[lastUpdatedAt]="review.lastUpdatedAt"
-			[bookId]="review.bookId"
-			[rating]="review.rating"
-			[tags]="review.tags"
-		></app-global-review-list-item>
-		<hr />
-	}
+	<div class="tag-filters">
+		<p><strong>Filter reviews by tag</strong>:</p>
+		<p-tag
+			[routerLink]="['/reviews']"
+			severity="{{ searchTag == '' ? 'success' : 'info' }}"
+			value="All"
+			class="tag"
+		/>
+		@for (tagName of tags; track $index) {
+			<p-tag
+				[routerLink]="['/reviews']"
+				[queryParams]="{ tag: tagName }"
+				severity="{{ tagName == searchTag ? 'success' : 'info' }}"
+				value="{{ tagName }}"
+				class="tag"
+			/>
+		}
+	</div>
+	<div>
+		@for (review of reviews; track $index) {
+			<app-global-review-list-item
+				[id]="review.id"
+				[title]="review.title"
+				[body]="review.body"
+				[createdAt]="review.createdAt"
+				[lastUpdatedAt]="review.lastUpdatedAt"
+				[bookId]="review.bookId"
+				[rating]="review.rating"
+				[tags]="review.tags"
+			></app-global-review-list-item>
+			<hr />
+		}
+	</div>
 	<p-paginator
 		(onPageChange)="onPageChange($event)"
 		[rows]="pageSize"

@@ -27,31 +27,9 @@ namespace book_review_server.Controllers
         public async Task<ActionResult<ApiResult<Review>>> GetReviews(
             int pageIndex = 0,
             int pageSize = 10,
-            string? bookId = null)
+            string? bookId = null,
+            string? tag = null)
         {
-            //// Get all reviews including their respective tags.
-            //IQueryable<ReviewDTO> query = _context.Reviews
-            //    .Include(r => r.Tags)
-            //    .AsNoTracking()
-            //    .Select(r => new ReviewDTO
-            //    {
-            //        Id = r.Id,
-            //        CreatedAt = r.CreatedAt,
-            //        LastUpdatedAt = r.LastUpdatedAt,
-            //        Title = r.Title,
-            //        Body = r.Body,
-            //        Rating = r.Rating,
-            //        BookId = r.BookId,
-            //        Tags = r.Tags.Select(t => t.Name).ToList()
-            //    });
-
-            //// Apply pagination to the reviews.
-            //var paginatedResult = await ApiResult<ReviewDTO>.CreateAsync(
-            //    query,
-            //    pageIndex,
-            //    pageSize
-            //);
-
             // Get all reviews including their respective tags
             IQueryable<Review> query = _context.Reviews
                 .Include(r => r.Tags)
@@ -61,6 +39,12 @@ namespace book_review_server.Controllers
             if (!string.IsNullOrEmpty(bookId))
             {
                 query = query.Where(r => r.BookId == bookId);
+            }
+
+            // Filter by tag if provided.
+            if (!string.IsNullOrEmpty(tag))
+            {
+                query = query.Where(r => r.Tags.Any(t => t.Name == tag));
             }
 
             // Map to ReviewDTO.

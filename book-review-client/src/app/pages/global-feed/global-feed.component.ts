@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { PaginatorModule } from 'primeng/paginator';
+import { TagModule } from 'primeng/tag';
 
 import { Review } from '../../shared/interfaces/review';
 import { environment } from '../../../environments/environment.development';
@@ -15,6 +16,7 @@ import { GlobalReviewListItemComponent } from '../../shared/components/global-re
 	imports: [
 		DatePipe,
 		PaginatorModule,
+		TagModule,
 		RouterLink,
 		GlobalReviewListItemComponent,
 	],
@@ -22,10 +24,18 @@ import { GlobalReviewListItemComponent } from '../../shared/components/global-re
 	styleUrl: './global-feed.component.scss',
 })
 export class GlobalFeedComponent implements OnInit {
-	constructor(private http: HttpClient) {}
+	constructor(
+		private http: HttpClient,
+		private activatedRoute: ActivatedRoute,
+		private router: Router,
+	) {}
 
-	private url: string = environment.baseUrl + 'api/Reviews';
+	private reviewsUrl: string = environment.baseUrl + 'api/Reviews';
+	private tagsUrl: string = environment.baseUrl + 'api/Tags';
+	public tags!: string[];
 	public reviews!: Review[];
+
+	public searchTag: string = '';
 
 	// Manage paginator state.
 	public pageIndex: number = 0;
@@ -33,18 +43,29 @@ export class GlobalFeedComponent implements OnInit {
 	public totalCount!: number;
 
 	ngOnInit() {
+		// Force route reload whenever params change.
+		// Refer to highest-voted answer: https://stackoverflow.com/questions/38971660/angular-2-reload-route-on-param-change
+		this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+
+		var tag = this.activatedRoute.snapshot.queryParamMap.get('tag');
+		if (tag) {
+			this.searchTag = tag;
+		}
+
 		this.getInitialReviews();
+		this.getAllTags();
 	}
 
 	// For every selection interaction with the paginator.
-	onPageChange(event: any) {
+	public onPageChange(event: any) {
 		this.pageIndex = event.page;
 		this.pageSize = event.rows;
 
 		var params = new HttpParams()
 			.set('pageIndex', event.page.toString())
-			.set('pageSize', event.rows.toString());
-		this.http.get<any>(this.url, { params }).subscribe({
+			.set('pageSize', event.rows.toString())
+			.set('tag', this.searchTag);
+		this.http.get<any>(this.reviewsUrl, { params }).subscribe({
 			next: (result) => {
 				this.reviews = result.data;
 				this.pageIndex = result.pageIndex;
@@ -56,16 +77,27 @@ export class GlobalFeedComponent implements OnInit {
 	}
 
 	// Initial data to view on page landing.
-	getInitialReviews() {
+	public getInitialReviews() {
 		var params = new HttpParams()
 			.set('pageIndex', Number(this.pageIndex).toString())
-			.set('pageSize', Number(this.pageSize).toString());
-		this.http.get<any>(this.url, { params }).subscribe({
+			.set('pageSize', Number(this.pageSize).toString())
+			.set('tag', this.searchTag);
+		this.http.get<any>(this.reviewsUrl, { params }).subscribe({
 			next: (result) => {
 				this.reviews = result.data;
 				this.pageIndex = result.pageIndex;
 				this.pageSize = result.pageSize;
 				this.totalCount = result.totalCount;
+			},
+			error: (error) => console.error(error),
+		});
+	}
+
+	// Get all tags to filter by.
+	public getAllTags() {
+		this.http.get<any>(this.tagsUrl).subscribe({
+			next: (result) => {
+				this.tags = result;
 			},
 			error: (error) => console.error(error),
 		});

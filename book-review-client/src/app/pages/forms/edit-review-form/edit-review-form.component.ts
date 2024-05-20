@@ -12,6 +12,8 @@ import { ChipsModule } from 'primeng/chips';
 
 import { Review } from '../../../shared/interfaces/review';
 import { environment } from '../../../../environments/environment.development';
+import { Book, BookDetailsResponse } from '../../../shared/interfaces/book';
+import { GoogleBooksApiService } from '../../../shared/services/google-books-api.service';
 
 @Component({
 	selector: 'app-edit-review-form',
@@ -32,8 +34,12 @@ export class EditReviewFormComponent implements OnInit {
 	public title?: string; // View title displayed on template.
 	public form!: FormGroup;
 	public review?: Review;
+	public bookId!: string;
+
+	public bookDetails!: Book;
 
 	constructor(
+		private googleBooksService: GoogleBooksApiService,
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
 		private http: HttpClient,
@@ -47,6 +53,8 @@ export class EditReviewFormComponent implements OnInit {
 			tags: new FormControl([]),
 		});
 		this.loadData();
+		this.bookId = this.activatedRoute.snapshot.paramMap.get('book-id')!;
+		this.searchBookById(this.bookId);
 	}
 
 	loadData() {
@@ -68,7 +76,7 @@ export class EditReviewFormComponent implements OnInit {
 		});
 	}
 
-	onSubmit() {
+	public onSubmit() {
 		var review = this.review;
 		if (!review) {
 			return;
@@ -85,7 +93,24 @@ export class EditReviewFormComponent implements OnInit {
 				console.log('Review #' + review!.id + ' has been updated!');
 
 				// Go back to reviews view.
-				this.router.navigate(['/reviews']);
+				this.router.navigate(['/books', this.bookDetails.id], {
+					fragment: 'bottom',
+				});
+			},
+			error: (error) => console.error(error),
+		});
+	}
+
+	// TODO transfer the create/edit forms into the book pages themselves.
+	// Get book details on the create review form.
+	public searchBookById(bookId: string) {
+		this.googleBooksService.getBookById(bookId).subscribe({
+			next: (bookResponse: BookDetailsResponse) => {
+				console.log(bookResponse);
+				this.bookDetails =
+					this.googleBooksService.getFormattedBookFromResponse(
+						bookResponse,
+					);
 			},
 			error: (error) => console.error(error),
 		});

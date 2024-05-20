@@ -11,6 +11,8 @@ import { ChipsModule } from 'primeng/chips';
 
 import { environment } from '../../../../environments/environment.development';
 import { NewReview } from '../../../shared/interfaces/review';
+import { GoogleBooksApiService } from '../../../shared/services/google-books-api.service';
+import { Book, BookDetailsResponse } from '../../../shared/interfaces/book';
 
 @Component({
 	selector: 'app-create-review-form',
@@ -33,7 +35,10 @@ export class CreateReviewFormComponent implements OnInit {
 	public review?: NewReview;
 	public bookId!: string;
 
+	public bookDetails!: Book;
+
 	constructor(
+		private googleBooksService: GoogleBooksApiService,
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
 		private http: HttpClient,
@@ -47,9 +52,10 @@ export class CreateReviewFormComponent implements OnInit {
 			tags: new FormControl([]),
 		});
 		this.bookId = this.activatedRoute.snapshot.paramMap.get('book-id')!;
+		this.searchBookById(this.bookId);
 	}
 
-	onSubmit() {
+	public onSubmit() {
 		this.review = {
 			title: this.form.controls['title'].value,
 			body: this.form.controls['body'].value,
@@ -64,7 +70,24 @@ export class CreateReviewFormComponent implements OnInit {
 				console.log('Created a new review!', this.review);
 
 				// TODO Go to the book details page with the new review.
-				this.router.navigate(['/reviews']);
+				this.router.navigate(['/books', this.bookDetails.id], {
+					fragment: 'bottom',
+				});
+			},
+			error: (error) => console.error(error),
+		});
+	}
+
+	// TODO transfer the create/edit forms into the book pages themselves.
+	// Get book details on the create review form.
+	public searchBookById(bookId: string) {
+		this.googleBooksService.getBookById(bookId).subscribe({
+			next: (bookResponse: BookDetailsResponse) => {
+				console.log(bookResponse);
+				this.bookDetails =
+					this.googleBooksService.getFormattedBookFromResponse(
+						bookResponse,
+					);
 			},
 			error: (error) => console.error(error),
 		});

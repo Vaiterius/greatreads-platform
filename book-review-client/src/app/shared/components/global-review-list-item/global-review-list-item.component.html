@@ -1,41 +1,78 @@
 <!-- The review item displayed on the global reviews page -->
-<div class="review-list-item" id="{{ id }}">
-	<h3>
-		<a [routerLink]="['/books', bookDetails.id]" fragment="{{ id }}">{{
-			title
-		}}</a>
-	</h3>
-	<!-- <p>{{ review.author }}</p> -->
-	<small>ID #{{ id }}</small>
-	<p>
-		<strong>Date</strong>:
-		{{ createdAt | date: "MMMM d, y, h:mm a" }}
-	</p>
-	@if (createdAt != lastUpdatedAt) {
-		<p>
-			Last Updated:
-			{{ lastUpdatedAt | date: "MMMM d, y, h:mm a" }}
-		</p>
-	}
-	<p>{{ body }}</p>
-	<p><strong>Rating</strong>: {{ rating }}/<strong>10</strong></p>
-	<p>
-		<strong>Tags</strong>:
-		@if (tags.length > 0) {
-			<span>
-				@for (tag of tags; track $index) {
-					<span>{{ tag }}</span
-					>,
-				}
-			</span>
+<div class="global-review-list-item" id="{{ id }}">
+	<!-- Picture -->
+	<section class="image-container">
+		@if (bookDetails.imageLinks != null) {
+			<img
+				src="{{ bookDetails.imageLinks.thumbnail }}"
+				alt="Book cover of {{ bookDetails.title }}"
+			/>
 		} @else {
-			<span>N/A</span>
+			<img src="#" alt="No book cover" />
 		}
-	</p>
-	<p>
-		<button [routerLink]="['/books', bookId, 'reviews', id, 'edit-review']">
-			Edit Review</button
-		><span> | </span
-		><button (click)="deleteReview(id)">Delete Review</button>
-	</p>
+	</section>
+
+	<!-- Review info -->
+	<section class="review-container">
+		<h3>
+			<a [routerLink]="['/books', bookDetails.id]" fragment="{{ id }}">{{
+				title
+			}}</a>
+		</h3>
+		<!-- <p>{{ review.author }}</p> -->
+		<div>
+			<small>Uploaded {{ createdAt | date: "MMMM d, y, h:mm a" }}</small>
+			<small> | </small>
+			@if (createdAt != lastUpdatedAt) {
+				<small>
+					Last Updated
+					{{ lastUpdatedAt | date: "MMMM d, y, h:mm a" }}
+				</small>
+			}
+			<small> | </small>
+			<small>ID #{{ id }}</small>
+		</div>
+		<p>
+			<small
+				>On the book <em>{{ bookDetails.title }}</em></small
+			>
+		</p>
+		<p>{{ body }}</p>
+		<p><strong>Rating</strong>: {{ rating }}/<strong>10</strong></p>
+		<div class="bottom-row">
+			<p>
+				<strong>Tags</strong>:
+				@if (tags.length > 0) {
+					<span>
+						@for (tagName of tags; track $index) {
+							<p-tag
+								[routerLink]="['/reviews']"
+								[queryParams]="{ tag: tagName }"
+								severity="info"
+								value="{{ tagName }}"
+								class="tag"
+								(onClick)="redirectWithTag(tagName)"
+							/>
+						}
+					</span>
+				} @else {
+					<span>N/A</span>
+				}
+			</p>
+			<p>
+				<a
+					[routerLink]="[
+						'/books',
+						bookId,
+						'reviews',
+						id,
+						'edit-review'
+					]"
+					class="p-button"
+					>Edit</a
+				>
+				<p-button (onClick)="deleteReview(id)" label="Delete" />
+			</p>
+		</div>
+	</section>
 </div>

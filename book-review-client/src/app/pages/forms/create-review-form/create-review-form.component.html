@@ -1,5 +1,11 @@
 <div class="review-create">
 	<h1>Create a new review</h1>
+	<p>
+		You are reviewing
+		<strong
+			><em>{{ bookDetails.title }}</em></strong
+		>
+	</p>
 	<div class="form-outline">
 		<form [formGroup]="form" (ngSubmit)="onSubmit()">
 			<!-- Title -->
@@ -56,7 +62,7 @@
 					type="button"
 					label="Cancel"
 					severity="secondary"
-					[routerLink]="['/reviews']"
+					[routerLink]="['/books', bookDetails.id]"
 				></p-button>
 			</div>
 		</form>

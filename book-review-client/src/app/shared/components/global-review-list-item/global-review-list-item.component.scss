@@ -1,0 +1,21 @@
+.global-review-list-item {
+	display: flex;
+
+	.image-container {
+		flex: 0 0 auto;
+		margin-right: 1.5rem;
+	}
+
+	.review-container {
+		flex-grow: 1;
+	}
+
+	.bottom-row {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.p-button {
+		margin-right: 6px;
+	}
+}

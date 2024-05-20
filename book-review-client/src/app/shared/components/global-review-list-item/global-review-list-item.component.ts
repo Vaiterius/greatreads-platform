@@ -3,6 +3,9 @@ import { DatePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
+
 import { environment } from '../../../../environments/environment.development';
 import { GoogleBooksApiService } from '../../services/google-books-api.service';
 import { Book, BookDetailsResponse } from '../../interfaces/book';
@@ -10,7 +13,7 @@ import { Book, BookDetailsResponse } from '../../interfaces/book';
 @Component({
 	selector: 'app-global-review-list-item',
 	standalone: true,
-	imports: [DatePipe, RouterLink],
+	imports: [DatePipe, RouterLink, TagModule, ButtonModule],
 	templateUrl: './global-review-list-item.component.html',
 	styleUrl: './global-review-list-item.component.scss',
 })
@@ -43,7 +46,7 @@ export class GlobalReviewListItemComponent implements OnInit {
 		this.http.delete<any>(`${this.url}/${id}`).subscribe({
 			next: () => {
 				console.log(`Review #${id} deleted successfully`);
-				this.router.navigate(['/reviews']);
+				this.router.navigate(['/books', this.bookDetails.id]);
 			},
 			error: (error) => {
 				console.error(`Error deleting review #${id}`, error);
@@ -63,5 +66,10 @@ export class GlobalReviewListItemComponent implements OnInit {
 			},
 			error: (error) => console.error(error),
 		});
+	}
+
+	// Redirect to reviews under the tag that was clicked on.
+	public redirectWithTag(tagName: string) {
+		this.router.navigate(['/reviews'], { queryParams: { tag: tagName } });
 	}
 }
