@@ -1,0 +1,38 @@
+<div class="login">
+	<h1>Login</h1>
+	<div>
+		@if (loginResult && !loginResult.success) {
+			<p-messages [(value)]="errorMessage" [enableService]="false" />
+		}
+		<form [formGroup]="form" (ngSubmit)="onSubmit()">
+			<!-- Username -->
+			<div class="form-item">
+				<label for="username">Username</label>
+				<input
+					id="title"
+					type="text"
+					pInputText
+					formControlName="username"
+				/>
+			</div>
+
+			<!-- Password -->
+			<div class="form-item">
+				<label for="password">Password</label>
+				<p-password
+					id="password"
+					formControlName="password"
+					[feedback]="false"
+					[toggleMask]="true"
+				/>
+			</div>
+
+			<p-button
+				type="submit"
+				label="Login"
+				severity="primary"
+				class="button"
+			/>
+		</form>
+	</div>
+</div>

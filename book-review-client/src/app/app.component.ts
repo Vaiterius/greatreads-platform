@@ -3,6 +3,9 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 
 @Component({
@@ -15,6 +18,8 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
 		HttpClientModule,
 		ReactiveFormsModule,
 		NavbarComponent,
+		MessagesModule,
+		MessageModule,
 	],
 })
 export class AppComponent {
