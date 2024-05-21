@@ -9,6 +9,9 @@ import { Book, BookDetailsResponse } from '../../shared/interfaces/book';
 import { Review } from '../../shared/interfaces/review';
 import { environment } from '../../../environments/environment.development';
 import { ReviewListItemComponent } from '../../shared/components/review-list-item/review-list-item.component';
+import { AuthService } from '../../shared/services/auth.service';
+import { Subject, takeUntil } from 'rxjs';
+import { UserDetails } from '../../shared/interfaces/user-details';
 
 @Component({
 	selector: 'app-book-details',
@@ -24,12 +27,22 @@ export class BookDetailsComponent implements OnInit {
 
 	private url: string = environment.baseUrl + 'api/Reviews';
 
+	private destroySubject = new Subject();
+	public isLoggedIn: boolean = false;
+	public userDetails?: UserDetails;
+
 	constructor(
+		private authService: AuthService,
 		private route: ActivatedRoute,
 		private googleBooksService: GoogleBooksApiService,
 		private http: HttpClient,
 	) {
 		this.id = this.route.snapshot.paramMap.get('id')!;
+		this.authService.authStatus
+			.pipe(takeUntil(this.destroySubject))
+			.subscribe((result) => {
+				this.isLoggedIn = result;
+			});
 	}
 
 	ngOnInit() {

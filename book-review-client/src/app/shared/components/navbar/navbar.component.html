@@ -14,7 +14,7 @@
 			<a [routerLink]="['/login']">Log In</a>
 		} @else {
 			|
-			<a [routerLink]="['/profile']">Profile</a>
+			<a [routerLink]="['/profile', userDetails!.username]">Profile</a>
 			|
 			<a (click)="onLogout()">Log Out</a>
 		}

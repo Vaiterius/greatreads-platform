@@ -1,6 +1,9 @@
+import { UserDetails } from './user-details';
+
 // From the server.
 export interface Review {
 	id: number;
+	authorDetails: UserDetails;
 	createdAt: string;
 	lastUpdatedAt: string;
 	// author: string;

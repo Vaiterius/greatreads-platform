@@ -58,6 +58,10 @@
 						[bookId]="review.bookId"
 						[rating]="review.rating"
 						[tags]="review.tags"
+						[authorDetails]="review.authorDetails"
+						[authorIsViewing]="
+							review.authorDetails.id == userDetails?.id
+						"
 					></app-review-list-item>
 					<hr />
 				}

@@ -9,11 +9,11 @@ namespace book_review_server.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        // TODO
-        // Foreign key.
-        //[Required]
-        //[ForeignKey(nameof(User))]
-        //public required int AuthorId { get; set; }
+        [Required]
+        public required string AuthorId { get; set; }
+
+        [ForeignKey(nameof(AuthorId))]
+        public required ApplicationUser Author { get; set; }
 
         [Required]
         public required DateTime CreatedAt { get; set; }

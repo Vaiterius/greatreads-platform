@@ -26,11 +26,13 @@
 				[id]="review.id"
 				[title]="review.title"
 				[body]="review.body"
+				[authorDetails]="review.authorDetails"
 				[createdAt]="review.createdAt"
 				[lastUpdatedAt]="review.lastUpdatedAt"
 				[bookId]="review.bookId"
 				[rating]="review.rating"
 				[tags]="review.tags"
+				[authorIsViewing]="review.authorDetails.id == userDetails?.id"
 			></app-global-review-list-item>
 			<hr />
 		}

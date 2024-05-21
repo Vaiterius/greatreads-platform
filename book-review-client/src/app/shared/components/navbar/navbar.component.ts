@@ -8,6 +8,9 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
+import { UserDetails } from '../../interfaces/user-details';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
 	selector: 'app-navbar',
@@ -19,8 +22,12 @@ import { AuthService } from '../../services/auth.service';
 export class NavbarComponent implements OnInit, OnDestroy {
 	private destroySubject = new Subject();
 	public isLoggedIn: boolean = false;
+	public userDetails?: UserDetails;
+
+	public selfUrl: string = environment.baseUrl + 'api/Account/CurrentUser';
 
 	constructor(
+		private http: HttpClient,
 		private authService: AuthService,
 		private router: Router,
 	) {
@@ -33,6 +40,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.isLoggedIn = this.authService.isAuthenticated();
+		if (this.isLoggedIn) {
+			this.http.get<UserDetails>(this.selfUrl).subscribe({
+				next: (result) => {
+					console.log('This was called!');
+					this.userDetails = result;
+				},
+				error: (error) =>
+					console.error(
+						'Error on getting current user info: ',
+						error,
+					),
+			});
+		}
 	}
 
 	ngOnDestroy(): void {

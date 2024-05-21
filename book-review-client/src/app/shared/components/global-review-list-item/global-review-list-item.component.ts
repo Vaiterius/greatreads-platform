@@ -10,6 +10,7 @@ import { environment } from '../../../../environments/environment.development';
 import { GoogleBooksApiService } from '../../services/google-books-api.service';
 import { Book, BookDetailsResponse } from '../../interfaces/book';
 import { AuthService } from '../../services/auth.service';
+import { UserDetails } from '../../interfaces/user-details';
 
 @Component({
 	selector: 'app-global-review-list-item',
@@ -22,12 +23,13 @@ export class GlobalReviewListItemComponent implements OnInit {
 	@Input() id!: number;
 	@Input() title!: string;
 	@Input() body!: string;
-	// @Input() author: string;
+	@Input() authorDetails!: UserDetails;
 	@Input() createdAt!: string;
 	@Input() lastUpdatedAt?: string;
 	@Input() bookId!: string;
 	@Input() rating!: number;
 	@Input() tags!: string[];
+	@Input() authorIsViewing!: boolean;
 
 	public isLoggedIn: boolean = false;
 	public bookDetails!: Book;

@@ -9,6 +9,7 @@ using book_review_server.Data;
 using book_review_server.Data.Models;
 using book_review_server.Data.DTO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace book_review_server.Controllers
 {
@@ -17,10 +18,12 @@ namespace book_review_server.Controllers
     public class ReviewsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ReviewsController(ApplicationDbContext context)
+        public ReviewsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: api/Reviews
@@ -29,7 +32,8 @@ namespace book_review_server.Controllers
             int pageIndex = 0,
             int pageSize = 10,
             string? bookId = null,
-            string? tag = null)
+            string? tag = null,
+            string? user = null)
         {
             // Get all reviews including their respective tags
             IQueryable<Review> query = _context.Reviews
@@ -48,12 +52,25 @@ namespace book_review_server.Controllers
                 query = query.Where(r => r.Tags.Any(t => t.Name == tag));
             }
 
+            // Filter by user if provided.
+            if (!string.IsNullOrEmpty(user))
+            {
+                query = query.Where(r => r.Author.UserName == user);
+            }
+
             // Map to ReviewDTO.
             IQueryable<ReviewDTO> dtoQuery = query.Select(r => new ReviewDTO
             {
                 Id = r.Id,
                 CreatedAt = r.CreatedAt,
                 LastUpdatedAt = r.LastUpdatedAt,
+                AuthorDetails = new UserDetailsDTO()
+                {
+                    Id = r.Author.Id,
+                    FirstName = r.Author.FirstName,
+                    LastName = r.Author.LastName,
+                    Username = r.Author.UserName
+                },
                 Title = r.Title,
                 Body = r.Body,
                 Rating = r.Rating,
@@ -75,7 +92,6 @@ namespace book_review_server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Review>> GetReview(int id)
         {
-            //var review = await _context.Reviews.FindAsync(id);
             var review = await _context.Reviews
                 .Include(r => r.Tags)
                 .FirstOrDefaultAsync(r => r.Id == id);
@@ -90,6 +106,12 @@ namespace book_review_server.Controllers
                 Id = id,
                 CreatedAt = review.CreatedAt,
                 LastUpdatedAt = review.LastUpdatedAt,
+                AuthorDetails = new UserDetailsDTO() { 
+                    Id = review.Author.Id,
+                    FirstName = review.Author.FirstName,
+                    LastName = review.Author.LastName,
+                    Username = review.Author.UserName
+                },
                 Title = review.Title,
                 Body = review.Body,
                 Rating = review.Rating,
@@ -136,14 +158,22 @@ namespace book_review_server.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<Review>> PostReview(ReviewDTO reviewDto)  // TODO: create DTO for review tag conversions.
+        public async Task<ActionResult<Review>> PostReview(ReviewDTO reviewDto)
         {
             Console.WriteLine("Tags received: " + string.Join(", ", reviewDto.Tags));
+
+            var author = await _userManager.FindByIdAsync(reviewDto.AuthorDetails.Id);
+            if (author == null)
+            {
+                return BadRequest("Review is supplied with invalid author");
+            }
 
             var review = new Review
             {
                 CreatedAt = DateTime.UtcNow,
                 LastUpdatedAt = DateTime.UtcNow,
+                AuthorId = reviewDto.AuthorDetails.Id,
+                Author = author,
                 Title = reviewDto.Title,
                 Body = reviewDto.Body,
                 Rating = reviewDto.Rating,

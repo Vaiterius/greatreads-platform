@@ -9,6 +9,9 @@ import { TagModule } from 'primeng/tag';
 import { Review } from '../../shared/interfaces/review';
 import { environment } from '../../../environments/environment.development';
 import { GlobalReviewListItemComponent } from '../../shared/components/global-review-list-item/global-review-list-item.component';
+import { Subject, takeUntil } from 'rxjs';
+import { UserDetails } from '../../shared/interfaces/user-details';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
 	selector: 'app-global-feed',
@@ -28,7 +31,14 @@ export class GlobalFeedComponent implements OnInit {
 		private http: HttpClient,
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
-	) {}
+		private authService: AuthService,
+	) {
+		this.authService.authStatus
+			.pipe(takeUntil(this.destroySubject))
+			.subscribe((result) => {
+				this.isLoggedIn = result;
+			});
+	}
 
 	private reviewsUrl: string = environment.baseUrl + 'api/Reviews';
 	private tagsUrl: string = environment.baseUrl + 'api/Tags';
@@ -36,6 +46,12 @@ export class GlobalFeedComponent implements OnInit {
 	public reviews!: Review[];
 
 	public searchTag: string = '';
+
+	private destroySubject = new Subject();
+	public isLoggedIn: boolean = false;
+	public userDetails?: UserDetails;
+
+	public selfUrl: string = environment.baseUrl + 'api/Account/CurrentUser';
 
 	// Manage paginator state.
 	public pageIndex: number = 0;
@@ -54,6 +70,21 @@ export class GlobalFeedComponent implements OnInit {
 
 		this.getInitialReviews();
 		this.getAllTags();
+
+		this.isLoggedIn = this.authService.isAuthenticated();
+		if (this.isLoggedIn) {
+			this.http.get<UserDetails>(this.selfUrl).subscribe({
+				next: (result) => {
+					console.log('This was called!');
+					this.userDetails = result;
+				},
+				error: (error) =>
+					console.error(
+						'Error on getting current user info: ',
+						error,
+					),
+			});
+		}
 	}
 
 	// For every selection interaction with the paginator.

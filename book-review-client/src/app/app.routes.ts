@@ -17,11 +17,7 @@ export const routes: Routes = [
 	{ path: 'reviews', component: GlobalFeedComponent },
 	{ path: 'search-books', component: BookSearchComponent },
 	{ path: 'books/:id', component: BookDetailsComponent },
-	{
-		path: 'profile',
-		component: UserProfileComponent,
-		canActivate: [AuthGuard],
-	},
+	{ path: 'profile/:username', component: UserProfileComponent },
 
 	// Forms.
 	{

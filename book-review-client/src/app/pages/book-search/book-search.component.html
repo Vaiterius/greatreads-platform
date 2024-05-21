@@ -18,7 +18,13 @@
 	<!-- Search Results -->
 	<div>
 		@if (!searchResults) {
-			<p><em>Search For A Book!</em></p>
+			<p><em>Search for a book, any book!</em></p>
+			<small
+				>Powered by
+				<a target="_blank" href="https://developers.google.com/books"
+					>Google Books API</a
+				></small
+			>
 		} @else {
 			@if (searchResults.length == 0) {
 				<p><em>No results</em></p>

@@ -1,11 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginRequest } from '../interfaces/login-request';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+
 import { LoginResult } from '../interfaces/login-result';
 import { environment } from '../../../environments/environment.development';
 import { SignupRequest } from '../interfaces/signup-request';
 import { SignupResult } from '../interfaces/signup-result';
+import { UserDetails } from '../interfaces/user-details';
+import { LoginRequest } from '../interfaces/login-request';
 
 @Injectable({
 	providedIn: 'root',
@@ -32,7 +34,7 @@ export class AuthService {
 	}
 
 	public login(item: LoginRequest): Observable<LoginResult> {
-		let url: string = environment.baseUrl + 'api/Account/Login';
+		const url: string = environment.baseUrl + 'api/Account/Login';
 		return this.http.post<LoginResult>(url, item).pipe(
 			tap((loginResult) => {
 				if (loginResult.success && loginResult.token) {
@@ -45,7 +47,7 @@ export class AuthService {
 	}
 
 	public signup(item: SignupRequest): Observable<SignupResult> {
-		let url: string = environment.baseUrl + 'api/Account/Signup';
+		const url: string = environment.baseUrl + 'api/Account/Signup';
 		return this.http.post<SignupResult>(url, item).pipe(
 			tap((signupResult) => {
 				if (signupResult.success && signupResult.token) {
@@ -60,6 +62,12 @@ export class AuthService {
 	public logout() {
 		localStorage.removeItem(this.tokenKey);
 		this.setAuthStatus(false);
+	}
+
+	// WHY DOESN'T THIS WORK HERE BUT WORKS IN THE COMPONENT FILES?!!?!!
+	public getUserDetails() {
+		const url: string = environment.baseUrl + 'api/Account/CurrentUser';
+		return this.http.get<UserDetails>(url);
 	}
 
 	private setAuthStatus(isAuthenticated: boolean): void {

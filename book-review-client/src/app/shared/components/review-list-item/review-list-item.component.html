@@ -21,7 +21,12 @@
 				>On the book <em>{{ title }}</em></small
 			>
 		</p>
-		<p>{{ body }}</p>
+		<p>
+			<a [routerLink]="['/profile', authorDetails.username]">{{
+				authorDetails.username
+			}}</a>
+			says: {{ body }}
+		</p>
 		<p><strong>Rating</strong>: {{ rating }}/<strong>10</strong></p>
 		<div class="bottom-row">
 			<p>
@@ -44,7 +49,7 @@
 				}
 			</p>
 			<p>
-				@if (isLoggedIn) {
+				@if (isLoggedIn && authorIsViewing) {
 					<a
 						[routerLink]="[
 							'/books',

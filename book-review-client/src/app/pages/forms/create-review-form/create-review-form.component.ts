@@ -13,6 +13,7 @@ import { environment } from '../../../../environments/environment.development';
 import { NewReview } from '../../../shared/interfaces/review';
 import { GoogleBooksApiService } from '../../../shared/services/google-books-api.service';
 import { Book, BookDetailsResponse } from '../../../shared/interfaces/book';
+import { UserDetails } from '../../../shared/interfaces/user-details';
 
 @Component({
 	selector: 'app-create-review-form',
@@ -35,7 +36,10 @@ export class CreateReviewFormComponent implements OnInit {
 	public review?: NewReview;
 	public bookId!: string;
 
+	public userDetails!: UserDetails;
 	public bookDetails!: Book;
+
+	public selfUrl: string = environment.baseUrl + 'api/Account/CurrentUser';
 
 	constructor(
 		private googleBooksService: GoogleBooksApiService,
@@ -51,12 +55,21 @@ export class CreateReviewFormComponent implements OnInit {
 			rating: new FormControl(null),
 			tags: new FormControl([]),
 		});
+		this.http.get<UserDetails>(this.selfUrl).subscribe({
+			next: (result) => {
+				console.log('Current user in session: ', result);
+				this.userDetails = result;
+			},
+			error: (error) =>
+				console.error('Error on getting current user info: ', error),
+		});
 		this.bookId = this.activatedRoute.snapshot.paramMap.get('book-id')!;
 		this.searchBookById(this.bookId);
 	}
 
 	public onSubmit() {
 		this.review = {
+			authorDetails: this.userDetails,
 			title: this.form.controls['title'].value,
 			body: this.form.controls['body'].value,
 			rating: +this.form.controls['rating'].value,

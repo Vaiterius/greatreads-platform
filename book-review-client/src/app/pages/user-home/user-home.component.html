@@ -1,2 +1,14 @@
-<h1>Welcome back, User!</h1>
-<p>TODO</p>
+<div>
+	<h1>
+		Welcome back,
+		{{ userDetails ? userDetails.username : "User" }}!
+	</h1>
+	<h2>Currently registered users</h2>
+	<div>
+		@for (user of users; track $index) {
+			<a [routerLink]="['/profile', user.username]">{{ user.username }}</a
+			><span> | </span>
+		}
+	</div>
+	<h2>Go <a [routerLink]="['/search-books']">find a book</a> to review!</h2>
+</div>

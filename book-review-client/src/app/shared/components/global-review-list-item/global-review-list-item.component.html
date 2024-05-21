@@ -19,7 +19,6 @@
 				title
 			}}</a>
 		</h3>
-		<!-- <p>{{ review.author }}</p> -->
 		<div>
 			<small>Uploaded {{ createdAt | date: "MMMM d, y, h:mm a" }}</small>
 			<small> | </small>
@@ -37,7 +36,12 @@
 				>On the book <em>{{ bookDetails.title }}</em></small
 			>
 		</p>
-		<p>{{ body }}</p>
+		<p>
+			<a [routerLink]="['/profile', authorDetails.username]">{{
+				authorDetails.username
+			}}</a>
+			says: {{ body }}
+		</p>
 		<p><strong>Rating</strong>: {{ rating }}/<strong>10</strong></p>
 		<div class="bottom-row">
 			<p>
@@ -60,7 +64,7 @@
 				}
 			</p>
 			<p>
-				@if (isLoggedIn) {
+				@if (isLoggedIn && authorIsViewing) {
 					<a
 						[routerLink]="[
 							'/books',

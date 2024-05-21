@@ -1,2 +1,33 @@
-<h1>User's profile</h1>
-<p>TODO</p>
+<div>
+	<div>
+		<h1>{{ profileUsername }}'s Profile</h1>
+		<h2>Details</h2>
+		<small>ID #{{ userDetails.id }}</small>
+		<p>Name: {{ userDetails.firstName }} {{ userDetails.lastName }}</p>
+	</div>
+
+	<div>
+		<h2>Check Out Their Reviews</h2>
+		@if (userReviews.length > 0) {
+			@for (review of userReviews; track $index) {
+				<app-global-review-list-item
+					[id]="review.id"
+					[title]="review.title"
+					[body]="review.body"
+					[authorDetails]="review.authorDetails"
+					[createdAt]="review.createdAt"
+					[lastUpdatedAt]="review.lastUpdatedAt"
+					[bookId]="review.bookId"
+					[rating]="review.rating"
+					[tags]="review.tags"
+					[authorIsViewing]="
+						review.authorDetails.id == userDetails.id
+					"
+				></app-global-review-list-item>
+				<hr />
+			}
+		} @else {
+			<em>No reviews yet!</em>
+		}
+	</div>
+</div>

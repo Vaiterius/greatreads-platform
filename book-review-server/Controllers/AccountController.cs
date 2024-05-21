@@ -1,10 +1,12 @@
 ﻿using book_review_server.Data;
 using book_review_server.Data.DTO;
 using book_review_server.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace book_review_server.Controllers
 {
@@ -106,6 +108,7 @@ namespace book_review_server.Controllers
             var userDtos = await _userManager.Users
                 .Select(user => new UserDetailsDTO
                 {
+                    Id = user.Id,
                     Username = user.UserName,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
@@ -127,9 +130,30 @@ namespace book_review_server.Controllers
 
             return Ok(new UserDetailsDTO
             {
+                Id = user.Id,
                 Username = username,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+            });
+        }
+
+        // GET: api/Account/CurrentUser
+        [HttpGet("CurrentUser")]
+        [Authorize]
+        public ActionResult<UserDetailsDTO> GetCurrentUser()
+        {
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+            string username = User.FindFirst(ClaimTypes.Name)!.Value;
+            string firstName = User.FindFirst("FirstName")!.Value;
+            string lastName = User.FindFirst("LastName")!.Value;
+
+
+            return Ok(new
+            {
+                Id = userId,
+                Username = username,
+                FirstName = firstName,
+                LastName = lastName
             });
         }
     }

@@ -9,7 +9,7 @@ namespace book_review_server.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class SeedController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
