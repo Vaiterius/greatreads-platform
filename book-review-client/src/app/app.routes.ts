@@ -9,6 +9,7 @@ import { UserProfileComponent } from './pages/user-profile/user-profile.componen
 import { BookDetailsComponent } from './pages/book-details/book-details.component';
 import { CreateReviewFormComponent } from './pages/forms/create-review-form/create-review-form.component';
 import { LoginFormComponent } from './pages/forms/login-form/login-form.component';
+import { SignupFormComponent } from './pages/forms/signup-form/signup-form.component';
 
 export const routes: Routes = [
 	// Pages.
@@ -32,6 +33,10 @@ export const routes: Routes = [
 		path: 'books/:book-id/create-review',
 		component: CreateReviewFormComponent,
 		canActivate: [AuthGuard],
+	},
+	{
+		path: 'signup',
+		component: SignupFormComponent,
 	},
 	{
 		path: 'login',

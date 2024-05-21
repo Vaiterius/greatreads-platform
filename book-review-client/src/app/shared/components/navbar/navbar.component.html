@@ -9,6 +9,8 @@
 		<a [routerLink]="['/search-books']">Search Books</a>
 		@if (!isLoggedIn) {
 			|
+			<a [routerLink]="['/signup']">Sign Up</a>
+			|
 			<a [routerLink]="['/login']">Log In</a>
 		} @else {
 			|

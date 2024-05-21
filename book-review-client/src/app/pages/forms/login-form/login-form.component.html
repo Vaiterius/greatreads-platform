@@ -1,5 +1,6 @@
 <div class="login">
 	<h1>Login</h1>
+	<p>Welcome back, returning user!</p>
 	<div>
 		@if (loginResult && !loginResult.success) {
 			<p-messages [(value)]="errorMessage" [enableService]="false" />
@@ -26,6 +27,11 @@
 					[toggleMask]="true"
 				/>
 			</div>
+
+			<small class="bottom-text"
+				>Don't have an account?
+				<a [routerLink]="['/signup']">Register</a> here!</small
+			>
 
 			<p-button
 				type="submit"

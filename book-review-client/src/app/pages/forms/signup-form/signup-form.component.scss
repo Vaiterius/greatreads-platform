@@ -1,4 +1,4 @@
-.login {
+.signup {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -20,6 +20,11 @@
 
 		.bottom-text {
 			margin-bottom: 20px;
+		}
+
+		.error-message {
+			color: red;
+			margin-top: 0px;
 		}
 
 		p-button {

@@ -1,0 +1,81 @@
+<div class="signup">
+	<h1>Create An Account</h1>
+	<p>Join a community of avid book readers!</p>
+	<div>
+		@if (signupResult && !signupResult.success) {
+			<p-messages [(value)]="errorMessage" [enableService]="false" />
+		}
+		<form [formGroup]="form" (ngSubmit)="onSubmit()">
+			<!-- First name -->
+			<div class="form-item">
+				<label for="firstName">First Name</label>
+				<input
+					id="firstName"
+					type="text"
+					pInputText
+					formControlName="firstName"
+				/>
+			</div>
+
+			<!-- Last name -->
+			<div class="form-item">
+				<label for="lastName">Last Name</label>
+				<input
+					id="lastName"
+					type="text"
+					pInputText
+					formControlName="lastName"
+				/>
+			</div>
+
+			<!-- Username -->
+			<div class="form-item">
+				<label for="username">Username</label>
+				<input
+					id="title"
+					type="text"
+					pInputText
+					formControlName="username"
+				/>
+			</div>
+
+			<!-- Password -->
+			<div class="form-item">
+				<label for="password">Password</label>
+				<p-password
+					id="password"
+					formControlName="password"
+					[feedback]="false"
+					[toggleMask]="true"
+				/>
+			</div>
+
+			<!-- Password Confirm -->
+			<div class="form-item">
+				<label for="passwordConfirm">Re-enter Password</label>
+				<p-password
+					id="passwordConfirm"
+					formControlName="passwordConfirm"
+					[feedback]="false"
+					[toggleMask]="true"
+				/>
+			</div>
+
+			@if (form.errors?.["PasswordNoMatch"]) {
+				<p class="error-message">Passwords don't match!</p>
+			}
+
+			<small class="bottom-text"
+				>Already have an account?
+				<a [routerLink]="['/login']">Login</a> here!</small
+			>
+
+			<p-button
+				type="submit"
+				label="Sign up"
+				severity="primary"
+				class="button"
+			/>
+		</form>
+	</div>
+</div>

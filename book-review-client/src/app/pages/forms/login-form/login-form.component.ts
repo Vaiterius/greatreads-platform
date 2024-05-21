@@ -59,7 +59,7 @@ export class LoginFormComponent implements OnInit {
 	public onSubmit() {
 		var loginRequest = <LoginRequest>{};
 
-		loginRequest.email = this.form.controls['username'].value;
+		loginRequest.username = this.form.controls['username'].value;
 		loginRequest.password = this.form.controls['password'].value;
 
 		this.authService.login(loginRequest).subscribe({
