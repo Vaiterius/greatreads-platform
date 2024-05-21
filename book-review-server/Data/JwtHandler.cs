@@ -47,7 +47,7 @@ namespace book_review_server.Data
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Email!)
+                new Claim(ClaimTypes.Name, user.UserName!)
             };
 
             foreach (var role in await _userManager.GetRolesAsync(user))

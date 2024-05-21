@@ -9,7 +9,7 @@ namespace book_review_server.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class SeedController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -41,6 +41,8 @@ namespace book_review_server.Controllers
             {
                 UserName = name,
                 Email = email,
+                FirstName = "John",
+                LastName = "Doe",
                 SecurityStamp = Guid.NewGuid().ToString()
             };
             if (await _userManager.FindByNameAsync(name) is not null)
@@ -84,7 +86,7 @@ namespace book_review_server.Controllers
         //        {
         //            SecurityStamp = Guid.NewGuid().ToString(),
         //            UserName = email_Admin,
-        //            Email = email_Admin,
+        //            Username = email_Admin,
         //        };
 
         //        // insert the admin user into the DB
@@ -110,7 +112,7 @@ namespace book_review_server.Controllers
         //        {
         //            SecurityStamp = Guid.NewGuid().ToString(),
         //            UserName = email_User,
-        //            Email = email_User
+        //            Username = email_User
         //        };
 
         //        // insert the standard user into the DB
