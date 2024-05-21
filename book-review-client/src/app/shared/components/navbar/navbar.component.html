@@ -1,13 +1,20 @@
 <header>
 	<nav>
-		<a [routerLink]="['/']">Home</a>
-		|
+		@if (isLoggedIn) {
+			<a [routerLink]="['/']">Home</a>
+			|
+		}
 		<a [routerLink]="['/reviews']">Reviews</a>
 		|
 		<a [routerLink]="['/search-books']">Search Books</a>
-		|
-		<a [routerLink]="['/profile']">Profile</a>
-		|
-		<a [routerLink]="['/login']">Login</a>
+		@if (!isLoggedIn) {
+			|
+			<a [routerLink]="['/login']">Log In</a>
+		} @else {
+			|
+			<a [routerLink]="['/profile']">Profile</a>
+			|
+			<a (click)="onLogout()">Log Out</a>
+		}
 	</nav>
 </header>

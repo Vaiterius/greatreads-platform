@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 
+import { AuthGuard } from './auth.guard';
 import { GlobalFeedComponent } from './pages/global-feed/global-feed.component';
 import { UserHomeComponent } from './pages/user-home/user-home.component';
 import { BookSearchComponent } from './pages/book-search/book-search.component';
@@ -15,16 +16,22 @@ export const routes: Routes = [
 	{ path: 'reviews', component: GlobalFeedComponent },
 	{ path: 'search-books', component: BookSearchComponent },
 	{ path: 'books/:id', component: BookDetailsComponent },
-	{ path: 'profile', component: UserProfileComponent },
+	{
+		path: 'profile',
+		component: UserProfileComponent,
+		canActivate: [AuthGuard],
+	},
 
 	// Forms.
 	{
 		path: 'books/:book-id/reviews/:id/edit-review',
 		component: EditReviewFormComponent,
+		canActivate: [AuthGuard],
 	},
 	{
 		path: 'books/:book-id/create-review',
 		component: CreateReviewFormComponent,
+		canActivate: [AuthGuard],
 	},
 	{
 		path: 'login',

@@ -60,18 +60,20 @@
 				}
 			</p>
 			<p>
-				<a
-					[routerLink]="[
-						'/books',
-						bookId,
-						'reviews',
-						id,
-						'edit-review'
-					]"
-					class="p-button"
-					>Edit</a
-				>
-				<p-button (onClick)="deleteReview(id)" label="Delete" />
+				@if (isLoggedIn) {
+					<a
+						[routerLink]="[
+							'/books',
+							bookId,
+							'reviews',
+							id,
+							'edit-review'
+						]"
+						class="p-button"
+						>Edit</a
+					>
+					<p-button (onClick)="deleteReview(id)" label="Delete" />
+				}
 			</p>
 		</div>
 	</section>

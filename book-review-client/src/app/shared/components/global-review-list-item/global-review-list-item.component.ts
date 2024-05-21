@@ -9,6 +9,7 @@ import { TagModule } from 'primeng/tag';
 import { environment } from '../../../../environments/environment.development';
 import { GoogleBooksApiService } from '../../services/google-books-api.service';
 import { Book, BookDetailsResponse } from '../../interfaces/book';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
 	selector: 'app-global-review-list-item',
@@ -28,15 +29,18 @@ export class GlobalReviewListItemComponent implements OnInit {
 	@Input() rating!: number;
 	@Input() tags!: string[];
 
+	public isLoggedIn: boolean = false;
 	public bookDetails!: Book;
 
 	constructor(
+		private authService: AuthService,
 		private http: HttpClient,
 		private router: Router,
 		private googleBooksService: GoogleBooksApiService,
 	) {}
 
 	ngOnInit(): void {
+		this.isLoggedIn = this.authService.isAuthenticated();
 		this.searchBookById(this.bookId);
 	}
 

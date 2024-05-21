@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 
 import { environment } from '../../../../environments/environment.development';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
 	selector: 'app-review-list-item',
@@ -15,7 +16,7 @@ import { environment } from '../../../../environments/environment.development';
 	templateUrl: './review-list-item.component.html',
 	styleUrl: './review-list-item.component.scss',
 })
-export class ReviewListItemComponent {
+export class ReviewListItemComponent implements OnInit {
 	@Input() id!: number;
 	@Input() title!: string;
 	@Input() body!: string;
@@ -26,10 +27,17 @@ export class ReviewListItemComponent {
 	@Input() rating!: number;
 	@Input() tags!: string[];
 
+	public isLoggedIn: boolean = false;
+
 	constructor(
+		private authService: AuthService,
 		private http: HttpClient,
 		private router: Router,
 	) {}
+
+	ngOnInit(): void {
+		this.isLoggedIn = this.authService.isAuthenticated();
+	}
 
 	private url: string = environment.baseUrl + 'api/Reviews';
 
